@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'ebhome_style.css'%}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -15,18 +16,47 @@
             <p class="maintitle">EventBuddy</p>
         </div> 
         <div class="right_section">
-            <a href="/signin" class="menulink">Sign In</a>
-            <a href="#" class="menulink">About Us</a>
-            <a href="#" class="menulink">Explore</a>
-            <a href="/" class="active">Home</a>
+            {% if uname == ''%}
+            <a href="/signin" class="menulink" title="Sign in to your account">Sign In</a>
+            {% endif %}
+            {% if uname != ''%}
+            <a href="#" class="menulink" title="Profile">Profile</a>
+            {% endif %}
+            <a href="#" class="menulink" title="About Us">About Us</a>
+            <a href="#" class="menulink" title="Explore trending events">Explore</a>
+            <a href="/" class="active" title="Home">Home</a>
         </div>
     </div>
     <div class="greeting">
-        <h1 class="greetmess">Hello{{uname}}!</h1>
+        {% if uname%}
+        <h1 class="greetmess">Hello {{uname}}!</h1>
+        {% endif %}
+        {% if not uname%}
+        <h1 class="greetmess">Hello!</h1>
+        {% endif %}
     </div>
+    {% if uname == ''%}
     <div class="intro">
         <p class="introcon">EventBuddy is  your first choice platform for managing all your events in a compact and efficient way.<br><br>
         New to EventBuddy? Sign up <a href="/signup" style="color: green; text-decoration: none;">here</a><br><br>Already EventBuddy user? Sign in <a href="/signin" style="color: green; text-decoration: none;">here</a></p>
     </div>
+    {% endif %}
+    {% if uname != ''%}
+    <h1 class="mainhead">My Events</h1><a href="{% url 'newevent' uname%}" class="addform" title="Create a new event">+</a>
+    <div class="eventsection">
+    {% for event in eventlst%}    
+    <div>
+    <h1 class="field1">{{event.event_name}}</h1>
+    <h2 class="field2">From: {{event.event_start}}</h2>
+    <h2 class="field2">To: {{event.event_end}}</h2>
+    <h2 class="field2">Host: {{event.host}}</h2>
+    </div>
+    {% endfor %}
+    {% if not eventlst%}
+    <h1 class="errmess">No events scheduled.</h1>
+    {% endif %}
+    </div>
+    <a href="{% url 'home'%}" class="sbtnlink"><div class="sobtn">Sign out</div></a>
+    {% endif %}
 </body>
 </html>

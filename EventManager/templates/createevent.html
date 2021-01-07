@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Event</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'ebcreateevent_style.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="card">
+        <h1 class="maintitle">EventBuddy</h1>
+        <form action="newevent" method="POST">
+            {% csrf_token %}
+            <input type="text" placeholder="Event name" name="ename" class="infield">
+            <input type="date" name="estartd" class="infield">
+            <input type="time" name="estartt" class="infield">
+            <input type="date" name="eendd" class="infield">
+            <input type="time" name="eendt" class="infield">
+            <textarea name="edes" class="infield" placeholder="Event Description"></textarea>
+            <h2 class="err">{{message}}</h2>
+            <input type="submit" value="Create Event" class="subbtn">
+        </form>
+    </div>
+</body>
+</html>

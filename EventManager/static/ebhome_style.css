@@ -97,3 +97,67 @@ body,html{
     font-family: 'Courgette',cursive;
     color: maroon;
 }
+
+.mainhead{
+    display: inline-block;
+    margin: 5vw 0 3vw 5vw;
+    font-size: 4vw;
+    color: darkblue;
+    font-family: 'Courgette',cursive;
+}
+
+.addform{
+    display: inline;
+    float: right;
+    margin: 5vw 5vw 3vw 5vw;
+    font-size: 4vw;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.eventsection{
+    width: 100%;
+    display: flex;
+    margin-top: 2vw;
+    flex-direction: row;
+}
+
+.eventsection > div{
+    width: 31%;
+    margin: 0 1.5%;
+    background-color: deeppink;
+    border: 0.5vw solid deeppink;
+    border-radius: 1.5vw;
+}
+
+.field1{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 3vw;
+}
+
+.field2{
+    font-family: 'Roboto',sans-serif;
+    font-size: 2.3vw;
+}
+
+.sobtn{
+    margin: 5vw 10% 3vw 10%;
+    width: 80%;
+    font-size: 3vw;
+    text-align: center;
+    background-color:  rgb(49, 216, 208);
+    border: 0.4vw solid rgb(49, 216, 208);
+    border-radius: 1vw;
+}
+
+.sbtnlink{
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.errmess{
+    margin: 2vw 0 3vw 5vw;
+    color: red;
+    font-size: 3vw;
+}

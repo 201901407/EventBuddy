@@ -68,3 +68,34 @@ body,html{
     font-family: 'Courgette', cursive;
     background-color: rgb(24, 45, 136);
 }
+
+.greetmess{
+    opacity: 100%;
+    font-size: 7vw;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding: 15vw;
+    color: darkblue;
+    transition: 1s;
+}
+
+.intro{
+    margin: 0 10% 0 10%;
+    background: linear-gradient(to right,wheat,whitesmoke);
+    border-radius: 7%;
+}
+
+.introcon{
+    padding: 6vw 2vw 10vw 2vw;
+    text-align: justify;
+    font-weight: bold;
+    font-size: 3vw;
+    font-family: 'Courgette',cursive;
+    color: maroon;
+}
+
+.mainhead{
+    margin: 5vw 0 3vw 6vw;
+    font-size: 3vw;
+    color: darkblue;
+    font-family: 'Courgette',cursive;
+}
