@@ -15,14 +15,17 @@
         <form action="newevent" method="POST">
             {% csrf_token %}
             <input type="text" placeholder="Event name" name="ename" class="infield">
+            <h1 class="subs">From:</h1>
             <input type="date" name="estartd" class="infield">
             <input type="time" name="estartt" class="infield">
+            <h1 class="subs">To:</h1>
             <input type="date" name="eendd" class="infield">
             <input type="time" name="eendt" class="infield">
             <textarea name="edes" class="infield" placeholder="Event Description"></textarea>
             <h2 class="err">{{message}}</h2>
             <input type="submit" value="Create Event" class="subbtn">
         </form>
+        <div class="backdiv"><a href="{% url 'home' uid%}" title="Back to Home" class="backbtn">Back to Home</a></div>
     </div>
 </body>
 </html>

@@ -37,9 +37,46 @@ body,html{
     transition: 1s;
 }
 
+.guidetext{
+    display: inline;
+    font-size: 2.5vw;
+    margin: 0.5vw 0.2vw 3vw 7vw;
+    font-family: 'Courgette',cursive;
+    color: indigo;
+}
+
+.container{
+    width:60%;
+    margin: 3vw 20% 3vw 20%;
+}
+
+.bookmarks{
+    font-size: 2.5vw;
+    margin: 1.5vw 20%;
+    font-family: 'Courgette',cursive;
+    color: indigo;
+}
+
+#tempinfield{
+    width:60%;
+    margin: 3vw 20% 3vw 20%;
+    font-size: 2vw;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 0.2vw solid gray;
+    font-family: 'Courgette', cursive;
+}
+
+#tempinfield:focus{
+    outline: none;
+    border-bottom: 0.2vw solid darkblue;
+    transition: 1s;
+}
+
 .subbtn{
     width:60%;
-    margin: 3vw 20% 0vw 20%;
+    margin: 3vw 20% 3vw 20%;
     font-size: 2.7vw;
     border: 0.3vw solid blue;
     border-radius: 0.3vw;
@@ -53,14 +90,6 @@ body,html{
     color:red;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
-}
-
-.subs{
-    width:60%;
-    margin: 3vw 20% 3vw 20%;
-    font-size: 3vw;
-    font-family: 'Courgette',cursive;
-    color: green;
 }
 
 .backbtn{

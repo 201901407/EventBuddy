@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -16,40 +17,53 @@
             <p class="maintitle">EventBuddy</p>
         </div> 
         <div class="right_section">
-            {% if uname == ''%}
+            {% if uid == ''%}
             <a href="/signin" class="menulink" title="Sign in to your account">Sign In</a>
             {% endif %}
-            {% if uname != ''%}
-            <a href="#" class="menulink" title="Profile">Profile</a>
+            {% if uid != ''%}
+            <a href="{% url 'viewprofile' uid%}" class="menulink" title="Profile">Profile</a>
             {% endif %}
             <a href="#" class="menulink" title="About Us">About Us</a>
-            <a href="#" class="menulink" title="Explore trending events">Explore</a>
+            {% if uid != ''%}
+            <a href="{% url 'explore' uid%}" class="menulink" title="Explore trending events">Explore</a>
+            {% endif %}
+            {% if uid == ''%}
+            <a href="/explore" class="menulink" title="Explore trending events">Explore</a>
+            {% endif %}
+            {% if uid == ''%}
             <a href="/" class="active" title="Home">Home</a>
+            {% endif %}
+            {% if uid != ''%}
+            <a href="{% url 'home' uid%}" class="active" title="Home">Home</a>
+            {% endif %}
         </div>
     </div>
     <div class="greeting">
-        {% if uname%}
+        {% if uid%}
         <h1 class="greetmess">Hello {{uname}}!</h1>
         {% endif %}
-        {% if not uname%}
+        {% if not uid%}
         <h1 class="greetmess">Hello!</h1>
         {% endif %}
     </div>
-    {% if uname == ''%}
+    {% if uid == ''%}
     <div class="intro">
         <p class="introcon">EventBuddy is  your first choice platform for managing all your events in a compact and efficient way.<br><br>
         New to EventBuddy? Sign up <a href="/signup" style="color: green; text-decoration: none;">here</a><br><br>Already EventBuddy user? Sign in <a href="/signin" style="color: green; text-decoration: none;">here</a></p>
     </div>
     {% endif %}
-    {% if uname != ''%}
-    <h1 class="mainhead">My Events</h1><a href="{% url 'newevent' uname%}" class="addform" title="Create a new event">+</a>
+    {% if uid != ''%}
+    <h1 class="mainhead">My Events</h1><a href="{% url 'newevent' uid%}" class="addform" title="Create a new event">+</a><a href="{% url 'allevent' uid%}" class="showall" title="See all your events">View all</a>
     <div class="eventsection">
     {% for event in eventlst%}    
     <div>
     <h1 class="field1">{{event.event_name}}</h1>
-    <h2 class="field2">From: {{event.event_start}}</h2>
-    <h2 class="field2">To: {{event.event_end}}</h2>
-    <h2 class="field2">Host: {{event.host}}</h2>
+    <h2 class="field2">FROM: {{event.event_start}}</h2>
+    <h2 class="field2">TO: {{event.event_end}}</h2>
+    <h2 class="field2">HOST: {{event.host_name}}</h2>
+    {% if event.host_email == umail%}
+    <h1 class="field1"><a href="{% url 'deleteevent' uid event.event_id%}" class="dellink">Delete</a></h1>
+    {% endif %}
     </div>
     {% endfor %}
     {% if not eventlst%}

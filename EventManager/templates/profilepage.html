@@ -3,11 +3,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{uname}}'s Events</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'eballevents_style.css' %}">
+    <title>Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'ebpropage_style.css' %}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -20,7 +19,7 @@
             <a href="/signin" class="menulink" title="Sign in to your account">Sign In</a>
             {% endif %}
             {% if uid != ''%}
-            <a href="#" class="menulink" title="Profile">Profile</a>
+            <a href="{% url 'viewprofile' uid%}" class="active" title="Profile">Profile</a>
             {% endif %}
             <a href="#" class="menulink" title="About Us">About Us</a>
             {% if uid != ''%}
@@ -37,22 +36,9 @@
             {% endif %}
         </div>
     </div>
-    <h1 class="mainhead">All Events</h1>
-    <div class="eventsection">
-        {% for event in alleventlst%}
-        <div>
-        <h1 class="field1">{{event.event_name}}</h1>
-        <h2 class="field2">FROM: {{event.event_start}}</h2>
-        <h2 class="field2">TO: {{event.event_end}}</h2>
-        <h2 class="field2">HOST: {{event.host_name}}</h2>
-        {% if event.host_email == umail%}
-        <h1 class="field1"><a href="{% url 'deleteevent' uid event.event_id%}" class="dellink">Delete</a></h1>
-        {% endif %}
-        </div>
-        {% endfor %}
-        {% if not alleventlst%}
-        <h1 class="errmess">No events scheduled.</h1>
-        {% endif %}
-    </div>
+    <h1 class="nameofuser">{{uname}}</h1>
+    <h1 class="mailofuser">{{umail}}</h1>
+    <a href="#" class="chgname" title="Change your name">Change your name</a>
+    <a href="{% url 'changepassword' uid%}" class="chgname" title="Change your password">Change password</a>
 </body>
 </html>

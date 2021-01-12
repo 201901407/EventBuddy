@@ -3,10 +3,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{uname}}'s Events</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'eballevents_style.css' %}">
+    <title>Explore</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'ebexplore_style.css'%}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -20,14 +21,14 @@
             <a href="/signin" class="menulink" title="Sign in to your account">Sign In</a>
             {% endif %}
             {% if uid != ''%}
-            <a href="#" class="menulink" title="Profile">Profile</a>
+            <a href="{% url 'viewprofile' uid%}" class="menulink" title="Profile">Profile</a>
             {% endif %}
             <a href="#" class="menulink" title="About Us">About Us</a>
             {% if uid != ''%}
-            <a href="{% url 'explore' uid%}" class="menulink" title="Explore trending events">Explore</a>
+            <a href="{% url 'explore' uid%}" class="active" title="Explore trending events">Explore</a>
             {% endif %}
             {% if uid == ''%}
-            <a href="/explore" class="menulink" title="Explore trending events">Explore</a>
+            <a href="/explore" class="active" title="Explore trending events">Explore</a>
             {% endif %}
             {% if uid == ''%}
             <a href="/" class="menulink" title="Home">Home</a>
@@ -37,22 +38,18 @@
             {% endif %}
         </div>
     </div>
-    <h1 class="mainhead">All Events</h1>
     <div class="eventsection">
-        {% for event in alleventlst%}
+        {% for event in explst%}    
         <div>
         <h1 class="field1">{{event.event_name}}</h1>
         <h2 class="field2">FROM: {{event.event_start}}</h2>
         <h2 class="field2">TO: {{event.event_end}}</h2>
         <h2 class="field2">HOST: {{event.host_name}}</h2>
-        {% if event.host_email == umail%}
-        <h1 class="field1"><a href="{% url 'deleteevent' uid event.event_id%}" class="dellink">Delete</a></h1>
+        {% if uid != '' and event.host_email != umail%}
+        <div class="field1"><a href="{% url 'participate' uid event.event_id%}" class="plink">Participate</a></div><br>
         {% endif %}
         </div>
         {% endfor %}
-        {% if not alleventlst%}
-        <h1 class="errmess">No events scheduled.</h1>
-        {% endif %}
-    </div>
+    </div>    
 </body>
 </html>
