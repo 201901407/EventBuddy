@@ -1,5 +1,6 @@
 from django.db import models
 import uuid, datetime
+from django.utils import timezone
 
 # Create your models here.
 
@@ -19,6 +20,8 @@ class Event(models.Model):
     host_email = models.EmailField(max_length = 100)
     host_name = models.CharField(max_length = 100)
     event_description = models.CharField(max_length = 300)
+    registration_deadline = models.DateTimeField(default=timezone.now)
+    event_poster = models.URLField(max_length=150,default = '')
     def getEventDetails(self):
         return [self.event_name,self.event_start,self.event_end,self.host,self.event_description]
 

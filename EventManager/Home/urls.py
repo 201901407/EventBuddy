@@ -14,4 +14,6 @@ urlpatterns = [
     path('<str:uid>home/participantform<str:eid>',views.participate,name="participate"),
     path('<str:uid>home/profile',views.viewprofile,name="viewprofile"),
     path('<str:uid>home/profile/changepassword',views.changepassword,name="changepassword"),
+    path('<str:uid>home/profile/changename',views.changename,name="changename"),
+    path('<str:uid>home/viewpart<str:eid>',views.viewparticipant,name="viewparticipant"),
 ]

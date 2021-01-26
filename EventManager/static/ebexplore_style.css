@@ -105,3 +105,10 @@ body,html{
     font-size: 2.5vw;
     color: green;
 }
+
+.vplink{
+    text-align: center;
+    text-decoration: none;
+    font-size: 2.5vw;
+    color: darkslateblue;
+}

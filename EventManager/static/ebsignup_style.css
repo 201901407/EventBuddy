@@ -54,3 +54,19 @@ body,html{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
 }
+
+.backbtn{
+    font-size: 2vw;
+    text-decoration: none;
+    color: blue;
+}
+
+.backdiv{
+    display: inline-block;
+    border-radius: 0.3vw;
+    margin: 3vw 20% 4vw 20%;
+    text-align: center;
+    padding: 0;
+    font-family: 'Courgette',cursive;
+    color: darkcyan;
+}

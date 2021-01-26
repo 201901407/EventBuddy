@@ -130,3 +130,18 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.Argon2PasswordHasher',
 ]
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_USE_TLS = True
+
+EMAIL_PORT = 587
+
+#change these fields for enabling email feature
+EMAIL_HOST_USER = ''      
+EMAIL_HOST_PASSWORD = ''
+
+#change these fields for enabling phone messages feature
+TWILIO_ACCOUNT_SID = '' 
+TWILIO_AUTH_TOKEN = '' 
+TWILIO_NUMBER = ''

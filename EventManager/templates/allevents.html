@@ -45,7 +45,10 @@
         <h2 class="field2">FROM: {{event.event_start}}</h2>
         <h2 class="field2">TO: {{event.event_end}}</h2>
         <h2 class="field2">HOST: {{event.host_name}}</h2>
+        <h2 class="field2">DEADLINE: {{event.registration_deadline}}</h2>
+        <h1 class="field1"><a href="{{event.event_poster}}" title="View poster for this event" class="vplink">View Poster</a></h1>
         {% if event.host_email == umail%}
+        <h1 class="field1"><a href="{% url 'viewparticipant' uid event.event_id%}" class="vplink" title="View all participants for this event">View Participants</a></h1>
         <h1 class="field1"><a href="{% url 'deleteevent' uid event.event_id%}" class="dellink">Delete</a></h1>
         {% endif %}
         </div>
@@ -53,6 +56,17 @@
         {% if not alleventlst%}
         <h1 class="errmess">No events scheduled.</h1>
         {% endif %}
+    </div>
+    <div class="participantinfo">
+        <ul>
+        <h1 class="lsthead">List of participants:</h1>   
+        {% for participant in partlst%}
+        <li class="partitem">{{participant.participant_name}} ({{participant.participant_email}})</li>
+        {% endfor %}
+        {% if not partlst %}
+        <h2 class="partitem">No information to show!</h2>
+        {% endif %}
+        </ul>
     </div>
 </body>
 </html>

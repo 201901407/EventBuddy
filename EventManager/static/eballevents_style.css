@@ -119,3 +119,44 @@ body,html{
     color: red;
     font-size: 3vw;
 }
+
+.vplink{
+    text-align: center;
+    text-decoration: none;
+    font-size: 2.5vw;
+    color: darkslateblue;
+}
+
+.participantinfo{
+    margin: 5vw;
+    border: 0.3vw solid darkblue;
+    background-color: darkblue;
+    border-radius: 2vw;
+}
+
+.partitem{
+    color:white;
+    font-size: 2vw;
+    font-family: 'Courgette',cursive;
+    margin:1.5vw 6vw;
+}
+
+.lsthead{
+    color: white;
+    font-family: 'Righteous',cursive;
+    font-size: 3vw;
+    margin:1.5vw 2.5vw;
+    font-weight: normal;
+}
+
+.featurelst{
+    padding: 0vw 2vw 1vw 6vw;
+    font-size: 3vw;
+    margin: 0;
+    font-family: 'Courgette',cursive;
+    color: darkslateblue;
+}
+
+.featurelst > li{
+    padding: 1vw 0;
+}

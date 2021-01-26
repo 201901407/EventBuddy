@@ -38,7 +38,7 @@
     </div>
     <h1 class="nameofuser">{{uname}}</h1>
     <h1 class="mailofuser">{{umail}}</h1>
-    <a href="#" class="chgname" title="Change your name">Change your name</a>
+    <a href="{% url 'changename' uid%}" class="chgname" title="Change your name">Change your name</a>
     <a href="{% url 'changepassword' uid%}" class="chgname" title="Change your password">Change password</a>
 </body>
 </html>

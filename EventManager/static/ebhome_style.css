@@ -90,7 +90,7 @@ body,html{
 }
 
 .introcon{
-    padding: 6vw 2vw 10vw 2vw;
+    padding: 6vw 2vw 0vw 2vw;
     text-align: justify;
     font-weight: bold;
     font-size: 3vw;
@@ -157,10 +157,16 @@ body,html{
     border-radius: 1vw;
 }
 
+.sobtn:hover{
+    background-color: lightseagreen;
+    border: 0.4vw solid lightseagreen;
+}
+
 .sbtnlink{
     color: red;
     text-decoration: none;
     font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .errmess{
@@ -184,4 +190,45 @@ body,html{
     text-decoration: none;
     font-size: 2.5vw;
     color: red;
+}
+
+.vplink{
+    text-align: center;
+    text-decoration: none;
+    font-size: 2.5vw;
+    color: darkslateblue;
+}
+
+.participantinfo{
+    margin: 5vw;
+    border: 0.3vw solid darkblue;
+    background-color: darkblue;
+    border-radius: 2vw;
+}
+
+.partitem{
+    color:white;
+    font-size: 2vw;
+    font-family: 'Courgette',cursive;
+    margin:1.5vw 6vw;
+}
+
+.lsthead{
+    color: white;
+    font-family: 'Righteous',cursive;
+    font-size: 3vw;
+    margin:1.5vw 2.5vw;
+    font-weight: normal;
+}
+
+.featurelst{
+    padding: 0vw 2vw 1vw 6vw;
+    font-size: 3vw;
+    margin: 0;
+    font-family: 'Courgette',cursive;
+    color: darkslateblue;
+}
+
+.featurelst > li{
+    padding: 1vw 0;
 }
