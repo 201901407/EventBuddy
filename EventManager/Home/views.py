@@ -1,5 +1,6 @@
 from EventManager import settings 
 from twilio.rest import Client
+from django.core.exceptions import PermissionDenied
 from django.template import Context, Template
 from django.shortcuts import render,redirect
 from Home.models import User,Event,Participant
@@ -9,6 +10,7 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email, URLValidator
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import authenticate, login
 import datetime
 
 partlst = []                          #global list for displaying participants for a particular event on home page
@@ -21,6 +23,10 @@ def home(request,uid=''):
     elst = []
     eidlst = []
     expired_eventid_lst = []
+    
+    if uid != '' and request.session['auth_key'] != uid:
+        raise PermissionDenied()
+
 
     #for displaying only three items on user's home page
     i=1             
@@ -103,6 +109,8 @@ def signin(request):
                     #    print("Mail couldn\'t be sent.")
                     #redirect to user's home page if credentials are valid
 
+                    request.session['auth_key'] = all_users.user_id
+                    print(request.session.items())
                     return redirect( home , uid = all_users.user_id)
             return render(request,'signin.html',{'message':'Email or Password is incorrect!'})
     else:
@@ -147,12 +155,14 @@ def signup(request):
             #-----Uncomment till here----
 
             #redirect to user's home page if credentials are valid
-            return redirect( home, uid = temp.user_id ) 
+            return redirect(signin) 
     else:
         return render(request,'signup.html')           
 
 def newevent(request,uid=''):
     if request.method == 'POST':
+        if uid != '' and request.session['auth_key'] != uid:
+            raise PermissionDenied()
         name = request.POST['ename']
         event_start_date = request.POST['estartd']
         event_start_time = request.POST['estartt']
@@ -224,9 +234,13 @@ def newevent(request,uid=''):
              #redirect to home page once event is created
              return redirect(home,uid = uid)
     else:
+        if uid != '' and request.session['auth_key'] != uid:
+            raise PermissionDenied()
         return render(request,'createevent.html',{'uid':uid})      
 
 def allevent(request,uid=''):
+    if uid != '' and request.session['auth_key'] != uid:
+        raise PermissionDenied()
     expired_eventid_lst = []
     elst = []
     eidlst = []
@@ -268,6 +282,9 @@ def allevent(request,uid=''):
     return render(request,'allevents.html',{'uname':uname,'alleventlst':elst,'uid':uid,'umail':umail})  
 
 def deleteevent(request,uid='',eid=''):
+    if uid != '' and request.session['auth_key'] != uid:
+        raise PermissionDenied()
+
     #find the event which has to be deleted in database and delete it
     for all_events in Event.objects.all():
         if all_events.event_id == eid:
@@ -281,6 +298,8 @@ def deleteevent(request,uid='',eid=''):
 
 
 def explore(request,uid=''):
+    if uid != '' and request.session['auth_key'] != uid:
+        raise PermissionDenied()
     exp = []
     expired_eventid_lst = []
     for all_users in User.objects.all():
@@ -306,6 +325,8 @@ def explore(request,uid=''):
 
 def participate(request,uid='',eid=''):
     if request.method == 'POST':
+        if uid != '' and request.session['auth_key'] != uid:
+            raise PermissionDenied()
         #extracting additional info from database
         for all_users in User.objects.all():
             if all_users.user_id == uid:
@@ -378,10 +399,14 @@ def participate(request,uid='',eid=''):
                     return render(request,'participantform.html',{'uid':uid,'eid':eid,'message':'Contact Number should only consist of numbers.'})
                 return redirect(explore, uid = uid)  
     else:    
+        if uid != '' and request.session['auth_key'] != uid:
+            raise PermissionDenied()
         return render(request,'participantform.html',{'uid':uid,'eid':eid})    
 
 
 def viewprofile(request,uid=''):
+    if uid != '' and request.session['auth_key'] != uid:
+        raise PermissionDenied()
     for all_users in User.objects.all():
         if all_users.user_id == uid:
                 uname = all_users.name
@@ -393,6 +418,8 @@ def viewprofile(request,uid=''):
 
 def changepassword(request,uid=''):
     if request.method == 'POST':
+        if uid != '' and request.session['auth_key'] != uid:
+            raise PermissionDenied()
         oldpass = request.POST['cono']
         confirmpass = request.POST['cnewpass']
         newpass = request.POST['newpass']
@@ -425,10 +452,14 @@ def changepassword(request,uid=''):
 
                     return redirect(viewprofile,uid = uid)
     else:    
+        if uid != '' and request.session['auth_key'] != uid:
+            raise PermissionDenied()
         return render(request,'changepass.html',{'uid':uid}) 
 
 def changename(request,uid=''):
     if request.method == 'POST':
+        if uid != '' and request.session['auth_key'] != uid:
+            raise PermissionDenied()
         newname = request.POST['upname']
         if not newname:
             return render(request,'chgname.html',{'uid':uid,'err':'Please fill out all the fields.'})
@@ -444,10 +475,14 @@ def changename(request,uid=''):
 
         return redirect(viewprofile,uid = uid)       
     else:
+        if uid != '' and request.session['auth_key'] != uid:
+            raise PermissionDenied()
         return render(request,'chgname.html',{'uid':uid})    
 
 
 def viewparticipant(request,uid='',eid=''):
+    if uid != '' and request.session['auth_key'] != uid:
+        raise PermissionDenied()
     #clear the list everytime the user requests for participant information
     partlst.clear()
     global flag
@@ -455,4 +490,8 @@ def viewparticipant(request,uid='',eid=''):
     for all_participants in Participant.objects.all():
         if all_participants.pevent_id == eid:
             partlst.append(all_participants)       
-    return redirect(home,uid=uid)                
+    return redirect(home,uid=uid)          
+
+def signout(request,uid=''):
+    request.session['auth_key'] = ''
+    return redirect(home)          
