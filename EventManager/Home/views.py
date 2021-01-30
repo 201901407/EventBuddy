@@ -24,7 +24,9 @@ def home(request,uid=''):
     eidlst = []
     expired_eventid_lst = []
     
-    if uid != '' and request.session['auth_key'] != uid:
+    if uid != '' and not uid in request.session:
+        raise PermissionDenied()
+    if uid != '' and request.session[uid] != uid:
         raise PermissionDenied()
 
 
@@ -105,12 +107,11 @@ def signin(request):
                     #recipients = [all_users.email]
                     #try:
                     #    send_mail(subject, mailbody, email_from, recipients) 
-                    #except SMTPException:
+                    #except:
                     #    print("Mail couldn\'t be sent.")
                     #redirect to user's home page if credentials are valid
 
-                    request.session['auth_key'] = all_users.user_id
-                    print(request.session.items())
+                    request.session[all_users.user_id] = all_users.user_id
                     return redirect( home , uid = all_users.user_id)
             return render(request,'signin.html',{'message':'Email or Password is incorrect!'})
     else:
@@ -133,6 +134,8 @@ def signup(request):
                 #validation which checks whether user with same credentials already exist or not
                 if email == all_users.email:
                     return render(request,'signup.html',{'message':'Email already exists. Please enter another email.'})
+            if len(password) < 8:
+                return render(request,'signup.html',{'message':'Password length should be greater than 8 characters.'})     
 
             #saving data to database        
             password = make_password(password)                       #encrypting the password using PBKDF2 hasher
@@ -150,7 +153,7 @@ def signup(request):
             #recipients = [email]
             #try:
             #    send_mail(subject, mailbody, email_from, recipients) 
-            #except SMTPException:
+            #except:
             #    print("Mail couldn\'t be sent.")
             #-----Uncomment till here----
 
@@ -161,7 +164,9 @@ def signup(request):
 
 def newevent(request,uid=''):
     if request.method == 'POST':
-        if uid != '' and request.session['auth_key'] != uid:
+        if uid != '' and not uid in request.session:
+            raise PermissionDenied()
+        if uid != '' and request.session[uid] != uid:
             raise PermissionDenied()
         name = request.POST['ename']
         event_start_date = request.POST['estartd']
@@ -227,19 +232,23 @@ def newevent(request,uid=''):
              #recipients = [umail]
              #try:
              #    send_mail(subject, mailbody, email_from, recipients) 
-             #except SMTPException:
+             #except:
              #    print("Mail couldn\'t be sent.")
              #----Uncomment till here-----
     
              #redirect to home page once event is created
              return redirect(home,uid = uid)
     else:
-        if uid != '' and request.session['auth_key'] != uid:
+        if uid != '' and not uid in request.session:
+            raise PermissionDenied()
+        if uid != '' and request.session[uid] != uid:
             raise PermissionDenied()
         return render(request,'createevent.html',{'uid':uid})      
 
 def allevent(request,uid=''):
-    if uid != '' and request.session['auth_key'] != uid:
+    if uid != '' and not uid in request.session:
+        raise PermissionDenied()
+    if uid != '' and request.session[uid] != uid:
         raise PermissionDenied()
     expired_eventid_lst = []
     elst = []
@@ -282,7 +291,9 @@ def allevent(request,uid=''):
     return render(request,'allevents.html',{'uname':uname,'alleventlst':elst,'uid':uid,'umail':umail})  
 
 def deleteevent(request,uid='',eid=''):
-    if uid != '' and request.session['auth_key'] != uid:
+    if uid != '' and not uid in request.session:
+        raise PermissionDenied()
+    if uid != '' and request.session[uid] != uid:
         raise PermissionDenied()
 
     #find the event which has to be deleted in database and delete it
@@ -298,7 +309,9 @@ def deleteevent(request,uid='',eid=''):
 
 
 def explore(request,uid=''):
-    if uid != '' and request.session['auth_key'] != uid:
+    if uid != '' and not uid in request.session:
+        raise PermissionDenied()
+    if uid != '' and request.session[uid] != uid:
         raise PermissionDenied()
     exp = []
     expired_eventid_lst = []
@@ -325,7 +338,9 @@ def explore(request,uid=''):
 
 def participate(request,uid='',eid=''):
     if request.method == 'POST':
-        if uid != '' and request.session['auth_key'] != uid:
+        if uid != '' and not uid in request.session:
+            raise PermissionDenied()
+        if uid != '' and request.session[uid] != uid:
             raise PermissionDenied()
         #extracting additional info from database
         for all_users in User.objects.all():
@@ -369,14 +384,14 @@ def participate(request,uid='',eid=''):
                     #subject = 'New Participation in EventBuddy'
                     #mailtemplate = Template(("Hello {{sname}},\n\nYou recently participated in the event with following credentials on EventBuddy:\nName of event: {{ename}}\nStart of event: {{estart}}\nEnd of event: {{eend}}\n"
                     #"Host: {{host}}\nEvent Description: {{edest}}\n\nRegards,\nEventBuddy Team"))
-                    #context = Context({'sname':uname,'ename':all_events.event_name,'estart':all_events.event_start,'eend':all_events.event_end,'host':uname,'edest':all_events.event_description})
+                    #context = Context({'sname':uname,'ename':all_events.event_name,'estart':all_events.event_start,'eend':all_events.event_end,'host':all_events.host_name,'edest':all_events.event_description})
                     #mailbody = mailtemplate.render(context)
                     #email_from = settings.EMAIL_HOST_USER
                     #recipients = [umail]
                     #try:
                     #    send_mail(subject, mailbody, email_from, recipients) 
-                    #except SMTPException:
-                    #    print("Mail couldn\'t be sent.")
+                    #except:
+                    #    print('Mail not sent.')    
                     #-----Uncomment tii here----
 
     
@@ -384,13 +399,13 @@ def participate(request,uid='',eid=''):
                     #Set the variables TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN and TWILIO_NUMBER to your choice in settings.py.
                     #messagetemplate = Template(("You recently participated in the event with following credentials on EventBuddy:\nName of event: {{ename}}\nStart of event: {{estart}}\nEnd of event: {{eend}}\n"
                     #"Host: {{host}}\nEvent Description: {{edest}}"))
-                    #context = Context({'ename':all_events.event_name,'estart':all_events.event_start,'eend':all_events.event_end,'host':uname,'edest':all_events.event_description})
+                    #context = Context({'ename':all_events.event_name,'estart':all_events.event_start,'eend':all_events.event_end,'host':all_events.host_name,'edest':all_events.event_description})
                     #message_body = messagetemplate.render(context)
                     #cono_modified = '+91' + cono
                     #try:
                     #    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
                     #    client.messages.create(to=cono_modified,from_=settings.TWILIO_NUMBER,body=message_body)
-                    #except TwilioRestException:
+                    #except:
                     #    print("Message couldn\'t be sent")    
                     #----Uncomment till here-----
 
@@ -399,13 +414,17 @@ def participate(request,uid='',eid=''):
                     return render(request,'participantform.html',{'uid':uid,'eid':eid,'message':'Contact Number should only consist of numbers.'})
                 return redirect(explore, uid = uid)  
     else:    
-        if uid != '' and request.session['auth_key'] != uid:
+        if uid != '' and not uid in request.session:
+            raise PermissionDenied()
+        if uid != '' and request.session[uid] != uid:
             raise PermissionDenied()
         return render(request,'participantform.html',{'uid':uid,'eid':eid})    
 
 
 def viewprofile(request,uid=''):
-    if uid != '' and request.session['auth_key'] != uid:
+    if uid != '' and not uid in request.session:
+        raise PermissionDenied()
+    if uid != '' and request.session[uid] != uid:
         raise PermissionDenied()
     for all_users in User.objects.all():
         if all_users.user_id == uid:
@@ -418,7 +437,9 @@ def viewprofile(request,uid=''):
 
 def changepassword(request,uid=''):
     if request.method == 'POST':
-        if uid != '' and request.session['auth_key'] != uid:
+        if uid != '' and not uid in request.session:
+            raise PermissionDenied()
+        if uid != '' and request.session[uid] != uid:
             raise PermissionDenied()
         oldpass = request.POST['cono']
         confirmpass = request.POST['cnewpass']
@@ -446,19 +467,23 @@ def changepassword(request,uid=''):
                     #recipients = [all_users.email]
                     #try:
                     #    send_mail(subject, mailbody, email_from, recipients) 
-                    #except SMTPException:
+                    #except:
                     #    print("Mail couldn\'t be sent.")
 
 
                     return redirect(viewprofile,uid = uid)
     else:    
-        if uid != '' and request.session['auth_key'] != uid:
+        if uid != '' and not uid in request.session:
+            raise PermissionDenied()
+        if uid != '' and request.session[uid] != uid:
             raise PermissionDenied()
         return render(request,'changepass.html',{'uid':uid}) 
 
 def changename(request,uid=''):
     if request.method == 'POST':
-        if uid != '' and request.session['auth_key'] != uid:
+        if uid != '' and not uid in request.session:
+            raise PermissionDenied()
+        if uid != '' and request.session[uid] != uid:
             raise PermissionDenied()
         newname = request.POST['upname']
         if not newname:
@@ -475,13 +500,17 @@ def changename(request,uid=''):
 
         return redirect(viewprofile,uid = uid)       
     else:
-        if uid != '' and request.session['auth_key'] != uid:
+        if uid != '' and not uid in request.session:
+            raise PermissionDenied()
+        if uid != '' and request.session[uid] != uid:
             raise PermissionDenied()
         return render(request,'chgname.html',{'uid':uid})    
 
 
 def viewparticipant(request,uid='',eid=''):
-    if uid != '' and request.session['auth_key'] != uid:
+    if uid != '' and not uid in request.session:
+        raise PermissionDenied()
+    if uid != '' and request.session[uid] != uid:
         raise PermissionDenied()
     #clear the list everytime the user requests for participant information
     partlst.clear()
@@ -493,5 +522,5 @@ def viewparticipant(request,uid='',eid=''):
     return redirect(home,uid=uid)          
 
 def signout(request,uid=''):
-    request.session['auth_key'] = ''
+    request.session[uid] = None
     return redirect(home)          
