@@ -6,4 +6,4 @@
 * Participate in different events
 * Profile customization
 ## The link for the project demo video:
-[](https://drive.google.com/file/d/1MtsH6CD978gJKrZep3qHzcmg5TiWh7s6/view?usp=sharing)
+[Link](https://drive.google.com/file/d/1MtsH6CD978gJKrZep3qHzcmg5TiWh7s6/view?usp=sharing)
